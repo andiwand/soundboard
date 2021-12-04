@@ -25,7 +25,7 @@ function playSound(label) {
   }
 }
 
-app.use(express.static('frontend'));
+app.use(express.static(path.resolve(__dirname, 'frontend')));
 
 app.get('/api', (req, res) => {
   res.send('Hello World!');

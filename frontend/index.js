@@ -42,9 +42,13 @@ function getKey(code) {
 }
 
 function onKey(code) {
+  const key = getKey(code);
+  const label = key.textContent;
+
   ws.send(JSON.stringify({
     type: 'key',
     code: code,
+    label: label,
   }));
 }
 

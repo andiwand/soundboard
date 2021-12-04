@@ -1,12 +1,29 @@
 const http = require('http');
 const express = require('express');
 const WebSocket = require('ws');
+const fs = require('fs');
+const PlaySound = require('play-sound');
+
+const config = JSON.parse(fs.readFileSync('config.json'));
 
 const app = express();
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-app.use(express.static('../frontend'));
+const player = PlaySound(opts = {});
+
+function playSound(label) {
+  console.log(`find sound for label ${label}`);
+  const sounds = fs.readdirSync(config.data).filter((file) => { return file.startsWith(label); });
+  console.log(`found ${sounds}`);
+  if (sounds) {
+    const path = config.data + '/' + sounds[0];
+    console.log(`play sound ${path}`);
+    player.play(path);
+  }
+}
+
+app.use(express.static('frontend'));
 
 app.get('/api', (req, res) => {
   res.send('Hello World!');
@@ -18,9 +35,12 @@ wss.on('connection', (ws) => {
     const msg = JSON.parse(message);
 
     if (msg.type = 'key') {
+      playSound(msg.label);
+
       const reply = JSON.stringify({
         type: msg.type,
         code: msg.code,
+        label: msg.label,
       });
   
       wss.clients.forEach(client => {
@@ -30,6 +50,6 @@ wss.on('connection', (ws) => {
   });
 });
 
-server.listen(8080, () => {
+server.listen(config.port, () => {
   console.log(`Example app listening at http://localhost:${server.address().port}`);
 });

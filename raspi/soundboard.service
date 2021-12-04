@@ -5,6 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=pi
+WorkingDirectory=/home/pi/soundboard
 ExecStart=/home/pi/.nvm/versions/node/v17.2.0/bin/node /home/pi/soundboard/app.js
 Restart=on-failure
 

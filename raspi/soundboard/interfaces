@@ -1,0 +1,19 @@
+# interfaces(5) file used by ifup(8) and ifdown(8)
+# Include files from /etc/network/interfaces.d:
+source /etc/network/interfaces.d/*
+
+auto lo
+iface lo inet loopback
+
+auto br0
+iface br0 inet static
+  address 192.168.215.1
+  netmask 255.255.255.0
+  bridge_ports usb0
+  bridge_stp off
+  bridge_fd 0
+  bridge_maxwait 0
+
+#auto usb0
+#allow-hotplug usb0
+#iface usb0 inet static

@@ -35,7 +35,11 @@ wss.on('connection', (ws) => {
     console.log('received: %s', message);
     const msg = JSON.parse(message);
 
-    if (msg.type = 'key') {
+    if (msg.type = 'ping') {
+      ws.send(JSON.stringify({
+        type: 'pong',
+      }));
+    } else if (msg.type = 'key') {
       playSound(msg.label);
 
       const reply = JSON.stringify({

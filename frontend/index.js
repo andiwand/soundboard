@@ -26,6 +26,12 @@ function connectWebSocket(url) {
     console.error('Socket encountered error: ', err.message, 'Closing socket');
     ws.close();
   };
+
+  setInterval(() => {
+    ws.send(JSON.stringify({
+      type: 'ping',
+    }));
+  }, 1000);
 }
 
 connectWebSocket("ws://" + location.host);

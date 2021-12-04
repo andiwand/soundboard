@@ -12,7 +12,7 @@ function connectWebSocket(url) {
       ws.send(JSON.stringify({
         type: 'pong',
       }));
-    } else if (message.target == 'pong') {
+    } else if (message.type == 'pong') {
     } else if (message.type == 'key') {
       const key = getKey(message.code);
       if (key) {

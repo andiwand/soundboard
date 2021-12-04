@@ -2,9 +2,10 @@ const http = require('http');
 const express = require('express');
 const WebSocket = require('ws');
 const fs = require('fs');
+const path = require('path');
 const PlaySound = require('play-sound');
 
-const config = JSON.parse(fs.readFileSync('config.json'));
+const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'config.json')));
 
 const app = express();
 const server = http.createServer(app);
@@ -16,7 +17,7 @@ function playSound(label) {
   console.log(`find sound for label ${label}`);
   const sounds = fs.readdirSync(config.data).filter((file) => { return file.startsWith(label); }).sort();
   if (sounds.length > 0) {
-    const path = config.data + '/' + sounds[0];
+    const path = path.resolve(config.data, sounds[0]);
     console.log(`play sound ${path}`);
     player.play(path);
   } else {
@@ -32,7 +33,6 @@ app.get('/api', (req, res) => {
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-    console.log('received: %s', message);
     const msg = JSON.parse(message);
 
     if (msg.type = 'ping') {
@@ -51,6 +51,8 @@ wss.on('connection', (ws) => {
       wss.clients.forEach(client => {
         client.send(reply);
       });
+    } else {
+      console.log('unknown message received: %s', message);
     }
   });
 });

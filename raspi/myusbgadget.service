@@ -5,7 +5,7 @@ After=systemd-modules-load.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/home/pi/soundboard/myusbgadget.sh
+ExecStart=/home/pi/soundboard/raspi/myusbgadget.sh
  
 [Install]
 WantedBy=sysinit.target

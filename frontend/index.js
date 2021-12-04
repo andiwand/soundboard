@@ -8,7 +8,12 @@ function connectWebSocket(url) {
   ws.onmessage = (event) => {
     const message = JSON.parse(event.data);
   
-    if (message.type == 'key') {
+    if (message.type == 'ping') {
+      ws.send(JSON.stringify({
+        type: 'pong',
+      }));
+    } else if (message.target == 'pong') {
+    } else if (message.type == 'key') {
       const key = getKey(message.code);
       if (key) {
         animateKey(key);

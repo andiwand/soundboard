@@ -35,11 +35,12 @@ wss.on('connection', (ws) => {
   ws.on('message', (message) => {
     const msg = JSON.parse(message);
 
-    if (msg.type = 'ping') {
+    if (msg.type == 'ping') {
       ws.send(JSON.stringify({
         type: 'pong',
       }));
-    } else if (msg.type = 'key') {
+    } else if (msg.type == 'pong') {
+    } else if (msg.type == 'key') {
       playSound(msg.label);
 
       const reply = JSON.stringify({

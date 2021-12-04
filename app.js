@@ -16,7 +16,7 @@ function playSound(label) {
   console.log(`find sound for label ${label}`);
   const sounds = fs.readdirSync(config.data).filter((file) => { return file.startsWith(label); });
   console.log(`found ${sounds}`);
-  if (sounds) {
+  if (sounds.length > 0) {
     const path = config.data + '/' + sounds[0];
     console.log(`play sound ${path}`);
     player.play(path);

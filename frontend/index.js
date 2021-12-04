@@ -7,13 +7,14 @@ function connectWebSocket(url) {
 
   ws.onmessage = (event) => {
     const message = JSON.parse(event.data);
-    console.log(message);
   
     if (message.type == 'key') {
       const key = getKey(message.code);
       if (key) {
         animateKey(key);
       }
+    } else {
+      console.log('unhandled message', message);
     }
   }
 

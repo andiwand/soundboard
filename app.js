@@ -4,6 +4,7 @@ const WebSocket = require('ws');
 const fs = require('fs');
 const path = require('path');
 const PlaySound = require('play-sound');
+const glob = require('glob');
 
 const config = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'config.json')));
 
@@ -15,9 +16,12 @@ const player = PlaySound(opts = {});
 
 function playSound(label) {
   console.log(`find sound for label ${label}`);
-  const sounds = fs.readdirSync(config.data).filter((file) => { return file.startsWith(label); }).sort();
+
+  const sounds = glob.sync(`/**/${label}*`, {root: config.data});
+  console.log(sounds);
+
   if (sounds.length > 0) {
-    const sound = path.resolve(config.data, sounds[0]);
+    const sound = sounds[0];
     console.log(`play sound ${sound}`);
     player.play(sound);
   } else {

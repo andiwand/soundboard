@@ -17,8 +17,7 @@ const player = PlaySound(opts = {});
 function playSound(label) {
   console.log(`find sound for label ${label}`);
 
-  const sounds = glob.sync(`**/${label}*`, {cwd: config.data, silent: true, strict: false});
-  console.log(sounds);
+  const sounds = glob.sync(`/**/${label}*`, {cwd: config.data, silent: true, strict: false});
 
   if (sounds.length > 0) {
     const sound = sounds[0];

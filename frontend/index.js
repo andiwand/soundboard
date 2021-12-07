@@ -3,7 +3,9 @@ let ws = undefined;
 function connectWebSocket(url) {
   ws = new WebSocket(url);
 
-  ws.onopen = () => {};
+  ws.onopen = () => {
+    console.log('websocket connected');
+  };
 
   ws.onmessage = (event) => {
     const message = JSON.parse(event.data);
@@ -24,12 +26,12 @@ function connectWebSocket(url) {
   }
 
   ws.onclose = function(e) {
-    console.log('Socket is closed. Reconnect will be attempted in 1 second.', e.reason);
+    console.log('websocket is closed - reconnect will be attempted in 1 second', e.reason);
     setTimeout(() => { connectWebSocket(url); }, 1000);
   };
 
   ws.onerror = function(err) {
-    console.error('Socket encountered error: ', err.message, 'Closing socket');
+    console.error('websocket encountered error: ', err.message, 'closing');
     ws.close();
   };
 
